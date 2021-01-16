@@ -29,7 +29,6 @@ void            cleanRank(rank * curRank);
 
 int main() {
   piece * rook;
-  rook = calloc(START_VALUE, sizeof(piece));
   rankArrayList * myBoard = createBoard();
   int n = 0;
   scanf("%d", &n);
