@@ -28,21 +28,24 @@ void            cleanRank(rank * curRank);
 
 
 int main() {
-  piece * rook;
+  piece rook;
+  piece * rookPtr = &rook;
   rankArrayList * myBoard = createBoard();
   int n = 0;
   scanf("%d", &n);
   for (int i = 1; i <= n; i++) {
-    scanf("%d %d", &rook->rank, &rook->file);
-    rook->id = i;
-    addPieceToBoard(myBoard, rook);
+    scanf("%d %d", &rook.rank, &rook.file);
+    rook.id = i;
+    addPieceToBoard(myBoard, rookPtr);
   }
   printf("\nboard_size: %d board_cap: %d\n", myBoard->size, myBoard->cap);
-  for (int j = 0; j < n; j++) {
+  for (int j = 0; j < myBoard->size; j++) {
     printf("location: %d num_pieces: %d capacity: %d", myBoard->ranks[j]->location,
             myBoard->ranks[j]->num_pieces, myBoard->ranks[j]->capacity);
-    printf("\nrank: %d file: %d id: %d\n", myBoard->ranks[j]->array->rank,
-            myBoard->ranks[j]->array->file, myBoard->ranks[j]->array->id);
+    for (int k = 0; k < myBoard->ranks[j]->num_pieces; k++) {
+      printf("\nrank: %d file: %d id: %d\n", myBoard->ranks[j]->array[k].rank,
+              myBoard->ranks[j]->array[k].file, myBoard->ranks[j]->array[k].id);
+    }
   }
   cleanBoard(myBoard);
   return 0;
