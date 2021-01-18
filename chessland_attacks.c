@@ -18,14 +18,14 @@ typedef struct rankArrayList {
 } rankArrayList;
 
 rankArrayList * createBoard();
-void            addPieceToBoard(rankArrayList * board, piece * newPiece);
-void            expandBoard(rankArrayList * board);
-void            cleanBoard(rankArrayList * board);
+void            addPieceToBoard(rankArrayList *, piece *);
+void            expandBoard(rankArrayList *);
+void            cleanBoard(rankArrayList *);
 rank *          createRank();
-void            addPieceToRank(rank * rank, piece * newPiece);
-void            expandRank(rank * curRank);
-void            cleanRank(rank * curRank);
-
+void            addPieceToRank(rank *, piece *);
+void            expandRank(rank *);
+void            cleanRank(rank *);
+void            checkBoard(rankArrayList *, piece *);
 
 int main() {
   piece rook;
@@ -38,15 +38,35 @@ int main() {
     rook.id = i;
     addPieceToBoard(myBoard, rookPtr);
   }
-  printf("\nboard_size: %d board_cap: %d\n", myBoard->size, myBoard->cap);
+
+  /*                     // DEBUG PRINT STATEMENTS
+  printf("\nBOARD SIZE: %d BOARD CAP: %d\n", myBoard->size, myBoard->cap);
   for (int j = 0; j < myBoard->size; j++) {
-    printf("location: %d num_pieces: %d capacity: %d", myBoard->ranks[j]->location,
+    printf("\nlocation: %d num_pieces: %d capacity: %d\n", myBoard->ranks[j]->location,
             myBoard->ranks[j]->num_pieces, myBoard->ranks[j]->capacity);
     for (int k = 0; k < myBoard->ranks[j]->num_pieces; k++) {
-      printf("\nrank: %d file: %d id: %d\n", myBoard->ranks[j]->array[k].rank,
+      printf("\nrank: %d file: %d id: %d\n\n", myBoard->ranks[j]->array[k].rank,
               myBoard->ranks[j]->array[k].file, myBoard->ranks[j]->array[k].id);
     }
-  }
+  } */
+
+
+  // int i, j, id = 1;
+  // for (i = 0; i < myBoard->size; i++) {
+  //   for (j = 0; j < myBoard->ranks[i]->num_pieces; j++) {
+  //     if (myBoard->ranks[i]->array[j].id == id) {
+  //       piece * rookAtRisk = &myBoard->ranks[i]->array[j];
+  //       checkBoard(myBoard, rookAtRisk);
+  //       id++;
+  //       continue;
+  //     }
+  //   }
+  // }
+  /*
+    Find the id: 1 element in the board. Loop through all the rows, pieces to find
+    matching location.
+
+  */
   cleanBoard(myBoard);
   return 0;
 }
@@ -63,22 +83,22 @@ rank * createRank() {
   rank * row = calloc(START_VALUE, sizeof(rank));
   row->array = calloc(2, sizeof(piece));
   row->location = 0;
-  row->num_pieces = START_VALUE;
   row->capacity = START_VALUE;
   return row;
 }
 
 void addPieceToBoard(rankArrayList * board, piece * newPiece) {
   if (board->size == board->cap) expandBoard(board);
-  for (int i = 0; i < board->size; i++) { // looking
-    if (board->ranks[i]->location == newPiece->rank) {
-      addPieceToRank(board->ranks[i], newPiece);
+  for (int i = 0; i < board->size; i++) { // Looping through the board to see if there
+    if (board->ranks[i]->location == newPiece->rank) {  // is already a rook in row   (location #)
+      addPieceToRank(board->ranks[i], newPiece);  // no new rank will have to be created
       return; // returning because I don't need to increase the size of board
     }         // since that row (location #) is already in there
   }
   rank * newRow = createRank();
   newRow->location = newPiece->rank;
   newRow->array[newRow->num_pieces] = *newPiece;
+  newRow->num_pieces = START_VALUE;
   board->ranks[board->size] = newRow;
   board->size++;
 }
@@ -112,4 +132,10 @@ void cleanBoard(rankArrayList * board) {
 void cleanRank(rank * curRank) {
   free(curRank->array);
   free(curRank);
+}
+
+void checkBoard(rankArrayList * board, piece * newPiece) {
+  int possibleAttacker;
+  int threatCount;
+
 }
