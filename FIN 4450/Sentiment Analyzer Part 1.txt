@@ -1,0 +1,10 @@
+5 Companies from Dow Jones Industrial Average INDU
+- Microsoft
+  - Industry/Sector: Software/Technology
+  - Returns:  1Y: 29.2%   2Y: 100.5%    5Y: 327.2%
+  - PE Ratio: 34.89x
+  
+- Apple
+- JP Morgan Chase
+- Goldman Sachs
+- Visa
