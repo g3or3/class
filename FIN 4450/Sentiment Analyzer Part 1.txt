@@ -1,11 +1,30 @@
+Valuation Model Approaches: Absolute/Relative
+Absolute: dividend discount model, discounted cash flow model, residual income model, asset based model
+Relative: price multiples like p/e ratio, p/b ratio, p/s ratio, p/cf ratio && earnings quality looking at income statement
+
 5 Companies from Dow Jones Industrial Average INDU
+
 - Microsoft
   - Industry/Sector: Software/Technology
   - Returns:  1Y: 29.2%   2Y: 100.5%    5Y: 327.2%
   - PE Ratio: 34.89x
   
 - Apple
+  - Industry/Sector: Consumer Electronics/Technology
+  - Returns:  1Y: 60.4%   2Y: 226.1%    5Y: 429%
+  - PE Ratio: 38.97x
+
 - JP Morgan Chase
+  - Industry/Sector: Banks/Financial Services
+  - Returns:  1Y: -.1%   2Y: 32%    5Y: 142.1%
+  - PE Ratio: 15.55x
+
 - Goldman Sachs
+  - Industry/Sector: Capital Markets/Financial Services
+  - Returns:  1Y: 17.9%   2Y: 45.3%    5Y: 87.6%
+  - PE Ratio: 12.39x
+
 - Visa
-- 
+  - Industry/Sector: Transaction Services/Financial Services
+  - Returns:  1Y: -1.5%   2Y: 45.6%    5Y: 182.5%
+  - PE Ratio: 40.01x
