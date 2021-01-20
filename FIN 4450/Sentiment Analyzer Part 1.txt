@@ -1,5 +1,5 @@
 Valuation Model Approaches: Absolute/Relative
-Absolute: dividend discount model, discounted cash flow model, residual income model, asset based model
+Absolute: discounted cash flow model and asset based model
 Relative: price multiples like p/e ratio, p/b ratio, p/s ratio, p/cf ratio && earnings quality looking at income statement
 
 5 Companies from Dow Jones Industrial Average INDU
