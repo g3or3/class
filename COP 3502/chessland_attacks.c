@@ -26,10 +26,7 @@ rank *          createRank();
 void            addPieceToRank(rank *, piece *);
 void            expandRank(rank *);
 void            cleanRank(rank *);
-void            checkBoard(rankArrayList *, piece *);
 piece *         findRook(rankArrayList *, int);
-int             horizScan(rankArrayList *, int);
-int             vertiScan(rankArrayList *, int);
 
 int main() {
   int id, n = 0;
@@ -55,8 +52,8 @@ int main() {
   } */
   for (id = 1; id <= n; id++) {
     rookPtr = findRook(myBoard, id);
-    checkBoard(myBoard, rookPtr);
   }
+  
   cleanBoard(myBoard);
   return 0;
 }
@@ -132,46 +129,4 @@ piece * findRook(rankArrayList * board, int n) {
       }
     }
   }
-  return 0;
-}
-
-void checkBoard(rankArrayList * board, piece * newPiece) {
-  int threatCount = 0, pos = 0;
-  int attackingRooks[MAX_NUM_THREATS];
-  int flag = 0;
-  int horizontal = 0;
-  int vertical = 0;
-  for (pos; pos < MAX_NUM_THREATS; pos++) {
-    if (horizScan(board, horizontal) == 1 && flag == 0) {
-      attackingRooks[pos] = ;
-      flag++;
-      horizontal++;
-      continue;
-    }
-    if (vertiScan(board, vertical) == 1 && flag == 1) {
-      attackingRooks[pos] = ;
-      flag++;
-      vertical++;
-      continue;
-    }
-  }
-  printf("%d ", threatCount);
-  if (threatCount > 0) {
-    for (int i = 0; i < threatCount; i++) {
-      printf("%d ", attackingRooks[i]);
-    }
-    printf("\n");
-  }
-  else {
-    printf("\n");
-    return;
-  }
-}
-
-int horizScan(rankArrayList * board, int direction) {
-
-}
-
-int vertiScan(rankArrayList * board, int direction) {
-
 }
