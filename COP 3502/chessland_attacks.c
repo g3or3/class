@@ -26,7 +26,6 @@ rank *          createRank();
 void            addPieceToRank(rank *, piece *);
 void            expandRank(rank *);
 void            cleanRank(rank *);
-void            checkBoard(rankArrayList *, piece *);
 piece *         findRook(rankArrayList *, int);
 
 int main() {
@@ -53,8 +52,8 @@ int main() {
   } */
   for (id = 1; id <= n; id++) {
     rookPtr = findRook(myBoard, id);
-    checkBoard(myBoard, rookPtr);
   }
+  
   cleanBoard(myBoard);
   return 0;
 }
@@ -129,39 +128,5 @@ piece * findRook(rankArrayList * board, int n) {
         return &board->ranks[i]->array[j];
       }
     }
-  }
-}
-
-void checkBoard(rankArrayList * board, piece * newPiece) {
-  int threatCount = 0, pos = 0;
-  int attackingRooks[MAX_NUM_THREATS];
-  for (pos; pos < MAX_NUM_THREATS; pos++) {
-    if (scanLeft() == 1) {
-      attackingRooks[pos] = ;
-      continue;
-    }
-    if (scanright() == 1) {
-      attackingRooks[pos] = ;
-      continue;
-    }
-    if (scanup() == 1) {
-      attackingRooks [pos] = ;
-      continue;
-    }
-    if (scandown() == 1) {
-      attackingRooks[pos] = ;
-      continue;
-    }
-  }
-  printf("%d ", threatCount);
-  if (threatCount > 0) {
-    for (int i = 0; i < threatCount; i++) {
-      printf("%d ", attackingRooks[i]);
-    }
-    printf("\n");
-  }
-  else {
-    printf("\n");
-    return;
   }
 }
