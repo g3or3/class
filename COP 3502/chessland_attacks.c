@@ -128,13 +128,16 @@ void cleanRank(rank * curRank) {
 }
 
 piece * findRook(rankArrayList * board, int n) {
+  piece * rook;
   for (int i = 0; i < board->size; i++) {
     for (int j = 0; j < board->ranks[i]->num_pieces; j++) {
       if (board->ranks[i]->array[j].id == n) {
-        return &board->ranks[i]->array[j];
+        rook = &board->ranks[i]->array[j];
+        return rook;
       }
     }
   }
+  return rook;
 }
 
 void checkBoard(rankArrayList * board, piece * rook) {
