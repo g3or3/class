@@ -30,11 +30,6 @@ void            checkBoard(rankArrayList *, piece *);
 int             scanLeft(rankArrayList *, piece *);
 int             scanRight(rankArrayList *, piece *);
 
-
-
-
-
-
 int main() {
   int id, n = 0;
   piece rook;
@@ -46,33 +41,13 @@ int main() {
     rook.id = id;
     addPieceToBoard(myBoard, rookPtr);
   }
-
-  //____________________________________________________________________________
-  /*                     // DEBUG PRINT STATEMENTS
-  printf("\nBOARD SIZE: %d BOARD CAP: %d\n", myBoard->size, myBoard->cap);
-  for (int j = 0; j < myBoard->size; j++) {
-    printf("\nlocation: %d num_pieces: %d capacity: %d\n", myBoard->ranks[j]->location,
-            myBoard->ranks[j]->num_pieces, myBoard->ranks[j]->capacity);
-    for (int k = 0; k < myBoard->ranks[j]->num_pieces; k++) {
-      printf("\nrank: %d file: %d id: %d\n\n", myBoard->ranks[j]->array[k].rank,
-              myBoard->ranks[j]->array[k].file, myBoard->ranks[j]->array[k].id);
-    }
-  } */
-
   for (id = 1; id <= n; id++) {
     rookPtr = findRook(myBoard, id);
     checkBoard(myBoard, rookPtr);
   }
-
   cleanBoard(myBoard);
   return 0;
 }
-
-
-
-
-
-
 
 rankArrayList * createBoard() {
   rankArrayList * board = calloc(START_VALUE, sizeof(rankArrayList));
@@ -152,8 +127,9 @@ piece * findRook(rankArrayList * board, int n) {
 
 void checkBoard(rankArrayList * board, piece * rook) {
   rank * row;
-  piece leftRook, rightRook;
-  int i, leftThreat = 0, rightThreat = 0, threatCount = 0;
+  piece leftRook, rightRook, upRook, downRook;
+  int i, j, threatCount = 0;
+  int leftThreat = 0, rightThreat = 0, upThreat = 0, downThreat = 0;
   for (i = 0; i < board->size; i++) {
     if (board->ranks[i]->location == rook->rank) row = board->ranks[i];
   }
@@ -168,7 +144,7 @@ void checkBoard(rankArrayList * board, piece * rook) {
       if (row->array[i].file > leftRook.file) leftRook = row->array[i];
     }
   }
-  //scan to the right of the rook passed from function
+  // scan to the right of the rook passed from function
   for (i = 0; i < row->num_pieces; i++) {
     if (row->array[i].file > rook->file && rightThreat == 0) {
       threatCount++;
@@ -179,21 +155,60 @@ void checkBoard(rankArrayList * board, piece * rook) {
       if (row->array[i].file < rightRook.file) rightRook = row->array[i];
     }
   }
+  // scan up from the rook passed from function
+  for (i = 0; i < board->size; i++) {
+    for (j = 0; j < board->ranks[i]->num_pieces; j++) {
+      if (rook->file == board->ranks[i]->array[j].file) {
+        if (rook->id != board->ranks[i]->array[j].id) {
+          if (board->ranks[i]->location > rook->rank && upThreat == 0) {
+            threatCount++;
+            upRook = board->ranks[i]->array[j];
+            upThreat++;
+          }
+          if (board->ranks[i]->location > rook->rank && upThreat != 0) {
+            if (board->ranks[i]->location < upRook.rank) {
+              upRook = board->ranks[i]->array[j];
+            }
+          }
+        }
+      }
+    }
+  }
+  // scan down from the rook passed from function
+  for (i = 0; i < board->size; i++) {
+    for (j = 0; j < board->ranks[i]->num_pieces; j++) {
+      if (rook->file == board->ranks[i]->array[j].file) {
+        if (rook->id != board->ranks[i]->array[j].id) {
+          if (board->ranks[i]->location < rook->rank && downThreat == 0) {
+            threatCount++;
+            downRook = board->ranks[i]->array[j];
+            downThreat++;
+          }
+          if (board->ranks[i]->location < rook->rank && downThreat != 0) {
+            if (board->ranks[i]->location > downRook.rank) {
+              downRook = board->ranks[i]->array[j];
+            }
+          }
+        }
+      }
+    }
+  }
   if (threatCount != 0) {
     printf("%d ", threatCount);
     if (leftThreat != 0) {
       printf("%d ", leftRook.id);
-      if (rightThreat == 0) printf("\n");
+      if (rightThreat == 0 && upThreat == 0 && downThreat == 0) printf("\n");
     }
     if (rightThreat != 0) {
-      printf("%d\n", rightRook.id);
+      printf("%d ", rightRook.id);
+      if (upThreat == 0 && downThreat == 0) printf("\n");
     }
-    else
-      printf("%d", threatCount);
-  }
-
-
-
-
-
+    if (upThreat != 0) {
+      printf("%d ", upRook.id);
+      if (downThreat == 0) printf("\n");
+    }
+    if (downThreat != 0) {
+      printf("%d\n", downRook.id);
+    }
+  } else printf("%d\n", threatCount);
 }
