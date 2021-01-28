@@ -14,7 +14,7 @@ void binarySearch(int arr[], int size, int target) {
   int mid;
 
   while (lo <= hi) {
-    mid = lo + ((hi - lo) / 2);
+    mid = lo + (hi - lo) / 2;
     if (arr[mid] == target) {
       printf("%d is the index\n", mid);
       return;
