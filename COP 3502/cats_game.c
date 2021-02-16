@@ -3,12 +3,11 @@
 #include <stdlib.h>
 
 #define MAX_LEN 15
-#define VALUE 9
 
 void guessNum(int);
 void search(int, int, int, int, char [], _Bool, int);
 void printVal(int);
-int getInput(char [], int, int);
+int getInput(char [], int);
 
 
 /* Take a number N from the user and start the guessing game */
@@ -46,7 +45,6 @@ void guessNum(int max) {
     start = max / 2 + 1;
     mid = start + (end - start) / 2;
     guessVal = mid - (max - mid);
-    printf("start is %d mid is %d end is %d guessVal is %d\n", start, mid, end, guessVal);
     search(start, mid, end, guessVal, input, warmer, max);
   }
 
@@ -55,7 +53,6 @@ void guessNum(int max) {
     end = max / 2;
     mid = start + (end - start) / 2;
     guessVal = mid - (max - mid);
-    printf("start is %d mid is %d end is %d guessVal is %d\n", start, mid, end, guessVal);
     search(start, mid, end, guessVal, input, warmer, max);
   }
 }
@@ -139,6 +136,6 @@ int getInput(char input[], int mid) {
     scanf("%s", input);
     if (strcmp(input, correct) == 0) exit(1);
   }
-  
+
   return -100;
 }
