@@ -3,8 +3,6 @@
 #include <stdlib.h>
 
 #define MAX_INPUT_LEN 241
-#define MAX_HANDLES 12
-#define MAX_HANDLE_LEN 21
 #define IS_PRETTY 1
 #define INDEX 0
 
@@ -15,12 +13,14 @@ _Bool prettyPhrase(char **, int, int, _Bool);
 void  joinStrings(char **, int, char *, char *, int);
 void  freeStringArr(char **, int);
 
-char * arrofStrings[MAX_HANDLES];
 char * space = " ";
+char inputStr[MAX_INPUT_LEN];
 char answerString[MAX_INPUT_LEN];
 
 int main() {
-  char inputStr[MAX_INPUT_LEN];
+  int n;
+  scanf("%d ", &n);
+  char * arrofStrings[n];
   scanf("%[^\n]%*c", inputStr);
   int wordCount = splitString(arrofStrings, inputStr, space);
   permuteStrings(arrofStrings, INDEX, wordCount - 1, wordCount);
