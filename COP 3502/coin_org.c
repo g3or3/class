@@ -5,7 +5,7 @@
 #define MAX_NAME_LEN 21
 
 typedef struct customer {
-  char * name;
+  char *name;
   int tokens;
   int bills;
   long long int units;
@@ -13,24 +13,24 @@ typedef struct customer {
 
 typedef struct customerList {
   int size, capacity;
-  customer ** customers;
+  customer **customers;
 } customerList;
 
 
-customerList * createCustList();
+customerList * createCustomerList();
 customer * createCustomer();
 void addCustomer(customerList *, customer *);
 void convertToUnits(customerList *, int, int);
-void sortCustomers(customerList *);
-void clearMemory(customerList *);
+void sortCustomers(customer **, int);
+void freeMemory(customerList *);
 
 
 int main() {
   int numCustomers, tokens, bills;
-  customer * newCustomer;
-  
-  /* create the array list to store new customers */
-  customerList * custList = createCustList();
+
+  customer *newCustomer;
+
+  customerList *custList = createCustomerList();
 
   /* number of paying customers */
   scanf("%d", &numCustomers);
@@ -45,15 +45,22 @@ int main() {
   scanf("%d %d", &tokens, &bills);
   convertToUnits(custList, tokens, bills);
 
-  // sortCustomers(custList);
-  clearMemory(custList);
+  /* quicksort */
+  sortCustomers(custList->customers, custList->size);
+
+  /* print the sorted customer array */
+  for (int i = 0; i < custList->size; i++) {
+    printf("%s\n", custList->customers[i]->name);
+  }
+
+  freeMemory(custList);
 
   return 0;
 }
 
 /* Set up an array of customer structs to store every paying customer */
-customerList * createCustList() {
-  customerList * custList = calloc(1, sizeof(customerList));
+customerList * createCustomerList() {
+  customerList *custList = calloc(1, sizeof(customerList));
   custList->customers = calloc(1, sizeof(customer*));
   custList->size = 0;
   custList->capacity = 1;
@@ -63,7 +70,8 @@ customerList * createCustList() {
 /* Create a customer struct to store the name, tokens, bills and converted units */
 customer * createCustomer() {
   char handle[MAX_NAME_LEN];
-  customer * newCustomer = calloc(1, sizeof(customer));
+  customer *newCustomer = calloc(1, sizeof(customer));
+
   scanf("%s %d %d", handle, &newCustomer->tokens, &newCustomer->bills);
   newCustomer->name = calloc(strlen(handle) + 1, sizeof(char));
   strcpy(newCustomer->name, handle);
@@ -71,7 +79,7 @@ customer * createCustomer() {
 }
 
 /* Add the customer to the array of customers */
-void addCustomer(customerList * custList, customer * newCustomer) {
+void addCustomer(customerList *custList, customer *newCustomer) {
   if (custList->size == custList->capacity) {
     int newCap = custList->capacity * 2;
     custList->customers = realloc(custList->customers, newCap * sizeof(customer *));
@@ -82,8 +90,9 @@ void addCustomer(customerList * custList, customer * newCustomer) {
 }
 
 /* Use the conversion rate to assign a 'units' value to every customer */
-void convertToUnits(customerList * custList, int tokens, int bills) {
+void convertToUnits(customerList *custList, int tokens, int bills) {
   long long int tokenToUnits, billtoUnits;
+
   for (int i = 0; i < custList->size; i++) {
     tokenToUnits = custList->customers[i]->tokens * bills;
     billtoUnits = custList->customers[i]->bills * tokens;
@@ -92,12 +101,31 @@ void convertToUnits(customerList * custList, int tokens, int bills) {
 }
 
 /* Sort the list of customers from greatest to least in terms of paid value */
-void sortCustomers() {
-
+void sortCustomers(customer **customers, int len) {
+  if (len <= 1) {
+    return;
+  }
+  customer *pivot = customers[0];
+  int frontSize = 0;
+  int backSize = 0;
+  for (int i = 1; i < len; i++) {
+    if (customers[frontSize + 1]->units > pivot->units) {
+      frontSize++;
+    } else {
+      backSize++;
+      customer *temp = customers[frontSize + 1];
+      customers[frontSize + 1] = customers[len - backSize];
+      customers[len - backSize] = temp;
+    }
+  }
+  customers[0] = customers[frontSize];
+  customers[frontSize] = pivot;
+  sortCustomers(customers, frontSize);
+  sortCustomers(customers + frontSize + 1, backSize);
 }
 
-/* Frees any memory used by the program */
-void clearMemory(customerList * custList) {
+/* Frees any memory used */
+void freeMemory(customerList *custList) {
   for (int i = 0; i < custList->size; i++) {
     free(custList->customers[i]->name);
     free(custList->customers[i]);
